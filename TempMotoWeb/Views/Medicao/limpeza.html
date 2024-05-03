@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html>
+<style>
+    .water-indicator {
+        width: 200px;
+        height: 100px;
+        background-color: #f0f0f0;
+        border-radius: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .water-quality {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        font-weight: bold;
+        font-family: Arial, sans-serif; /* Aplicando a fonte Arial */
+    }
+
+    .status-text {
+        font-size: 18px;
+        font-weight: bold;
+        text-align: center;
+        color: #555;
+        font-family: Arial, sans-serif; /* Aplicando a fonte Arial */
+    }
+</style>
+
+<head>
+    <title>Page Title</title>
+</head>
+<body>
+
+    <div class="water-indicator">
+        <div class="water-quality" id="water-quality"></div>
+        <div class="status-text" id="status-text"></div>
+    </div>
+
+</body>
+
+<script>
+
+const ph = 7;
+const temperatura = 74; // Altere conforme necessário
+
+const waterQuality = document.getElementById('water-quality');
+const statusText = document.getElementById('status-text');
+
+// Lógica para determinar o estado da água e atualizar o indicador visual
+if (((ph >= 1 && ph <= 14 && ph !== 7) || (temperatura > 35 || temperatura < 5))) {
+    waterQuality.style.backgroundColor = '#FF5733';
+    waterQuality.textContent = '!';
+    statusText.textContent = 'Limpeza Recomendada';
+} else {
+    waterQuality.style.backgroundColor = '#66BB6A';
+    waterQuality.textContent = '✓';
+    statusText.textContent = 'Água Boa para Consumo';
+}
+
+
+
+</script>
+</html>
+
+

@@ -1,0 +1,304 @@
+﻿@model IEnumerable<TempMotoWeb.Models.Medicao>
+
+@{
+    ViewData["Title"] = "Lista";
+}
+
+@section Scripts{
+    <meta http-equiv="refresh" content="300" />
+}
+
+<style>
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .termometro {
+        width: 50px;
+        height: 300px;
+        background-color: #ccc;
+        position: relative;
+        border-radius: 10px;
+        overflow: hidden;
+        border: 1px solid;
+    }
+
+    .mercurio {
+        width: 100%;
+        background-color: #00f;
+        position: absolute;
+        bottom: 0;
+        transition: height 0.5s ease;
+    }
+
+    .temperatura {
+        font-size: 20px;
+        position: absolute;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #000;
+    }
+
+    .valor-temperatura {
+        width: 200px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        background-color: #ccc;
+        border: 1px solid;
+        border-radius: 5px;
+        padding: 10px;
+        margin-top: 10px;
+        transition: width 0.5s ease;
+        font-family: Arial, sans-serif;
+    }
+
+    .ph-barra {
+        width: 300px;
+        height: 30px;
+        background-color: #ccc;
+        position: relative;
+        border-radius: 5px;
+        overflow: hidden;
+        margin-bottom: 20px;
+        border: 1px solid;
+    }
+
+    .ph-valor {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        transition: width 0.5s ease;
+    }
+
+    .ph-indicador {
+        text-align: center;
+        font-size: 16px;
+        margin-top: 10px;
+        font-family: Arial, sans-serif;
+    }
+
+    .ph-box {
+        width: 200px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        background-color: #ccc;
+        border: 1px solid;
+        border-radius: 5px;
+        padding: 10px;
+        
+    }
+
+    .water-indicator {
+        width: 200px;
+        height: 200px;
+        background-color: #f0f0f0;
+        border-radius: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        margin: 0 auto; /* Centraliza horizontalmente */
+    }
+
+
+    .water-quality {
+        width: 120px; 
+        height: 120px; 
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 48px;
+        font-weight: bold;
+        font-family: Arial, sans-serif;
+    }
+
+    .status-text {
+        width: 200px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        background-color: #ccc;
+        border: 1px solid;
+        border-radius: 5px;
+        padding: 10px;
+        margin-top: 10px;
+        transition: width 0.5s ease;
+        font-family: Arial, sans-serif;
+    }
+
+
+</style>
+<h1 style="color:#3217ea;">Tela inicial - Painel de controle</h1>
+
+<!--<p>
+    <a asp-action="Create">Create New</a>
+</p>-->
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <h3 style="text-align: center;">&nbsp;&nbsp;&nbsp;Valor do Ph&nbsp;&nbsp;&nbsp;</h3>
+            </th>
+            <td>&nbsp;&nbsp;&nbsp;</td>
+            <td>
+                <h3 style="text-align: center;">&nbsp;&nbsp;&nbsp;Temperatura&nbsp;&nbsp;&nbsp;</h3>
+            </td>
+            <td>&nbsp;&nbsp;&nbsp;</td>
+            <td>
+                <h3 style="text-align: center;">&nbsp;&nbsp;&nbsp;Indicador de limpeza da caixa d'agua&nbsp;&nbsp;&nbsp;</h3>
+            </td>     
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td style="padding:5px;">   
+                <table>
+                    <tr>
+                        <td>
+                            <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+                            <div class="ph-barra">
+                                <div class="ph-valor" id="ph-valor" style="width: 50%;"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        
+                    </tr>
+                </table>
+            </td>
+            <td>&nbsp;&nbsp;&nbsp;</td>
+            <td>               
+                <div class="container">
+                    <div class="termometro">
+                        <div class="mercurio" id="mercurio" style="height: 50%;"></div>
+                    </div>
+
+
+
+            </td>
+            </td>
+            <td>&nbsp;&nbsp;&nbsp;</td>
+            <td>
+                <br /><br /><br />
+                <div class="water-indicator">
+                    <div class="water-quality" id="water-quality"></div>
+                    
+                </div>
+            </td>
+
+        </tr>
+        <tr>
+            <td>
+                <div class="ph-indicador">
+                    <span id="ph-texto">Neutro (7)</span>
+                </div>
+                <div class="ph-box" id="ph-classificacao">
+                    @Html.DisplayNameFor(model => model.Ph)
+                    &nbsp;
+                    &nbsp;
+                </div>
+            </td>
+            <td>&nbsp;&nbsp;&nbsp;</td>
+            <td>
+                <div class="valor-temperatura" id="valor-temperatura">@Html.DisplayNameFor(model => model.Temperatura)°C</div>  
+            </td>
+            <td>&nbsp;&nbsp;&nbsp;</td>
+            <td><div class="status-text" id="status-text"></div></td>
+        </tr>
+
+
+        @{
+            var ultimoItem = Model.LastOrDefault();
+        }
+ 
+    </tbody>
+</table>
+
+
+
+<script>
+    function atualizarTemperatura(temperatura) {
+        const mercurio = document.getElementById('mercurio');
+        const temperaturaExibida = document.getElementById('temperatura');
+        const valorTemperatura = document.getElementById('valor-temperatura');
+
+        //temperaturaExibida.textContent = temperatura.toFixed(1) + '°C';
+        valorTemperatura.textContent = temperatura.toFixed(1) + '°C';
+
+        if (temperatura < 20) {
+            mercurio.style.backgroundColor = '#00f';
+        } else if (temperatura === 20) {
+            mercurio.style.backgroundColor = '#ff0';
+        } else if (temperatura <= 27) {
+            mercurio.style.backgroundColor = '#ff0';
+        } else {
+            mercurio.style.backgroundColor = '#f00';
+        }
+
+        //mercurio.style.height = ((temperatura - 20) / 10) * 100 + '%';
+    }
+
+    function atualizarPh(ph) {
+        const phValor = document.getElementById('ph-valor');
+        const phTexto = document.getElementById('ph-texto');
+        const phClassificacao = document.getElementById('ph-classificacao');
+
+        phTexto.textContent = '';
+
+        if (ph < 0) {
+            ph = 0;
+        } else if (ph > 14) {
+            ph = 14;
+        }
+
+        phValor.style.width = ((ph / 14) * 100) + '%';
+
+        if (ph >= 0 && ph <= 6) {
+            phValor.style.backgroundColor = '#ff0000';
+            //phTexto.textContent = 'Ácido (' + ph + ')';
+            phClassificacao.textContent = 'Ácido (pH ' + ph + ')';
+        } else if (ph === 7) {
+            phValor.style.backgroundColor = '#0d6007';
+            //phTexto.textContent = 'Ideal (7)';
+            phClassificacao.textContent = 'Ideal (pH ' + ph + ')';
+        } else {
+            phValor.style.backgroundColor = '#084005';
+            //phTexto.textContent = 'Alcalino (' + ph + ')';
+            phClassificacao.textContent = 'Alcalino (pH ' + ph + ')';
+        }
+    }
+
+
+    // Exemplo: atualize a temperatura
+    const temperaturaAtual = @Html.DisplayFor(modelItem => ultimoItem.Temperatura); // Atual valor da temperatura
+    const phAtual = @Html.DisplayFor(modelItem => ultimoItem.Ph); //Atual valor do ph 
+    atualizarTemperatura(temperaturaAtual);
+    atualizarPh(phAtual);
+
+    const ph = phAtual;
+    const temperatura = temperaturaAtual; // Altere conforme necessário
+
+    const waterQuality = document.getElementById('water-quality');
+    const statusText = document.getElementById('status-text');
+
+    // Lógica para determinar o estado da água e atualizar o indicador visual
+    if (((ph >= 1 && ph <= 14 && ph !== 7) || (temperatura > 35 || temperatura < 5))) {
+        waterQuality.style.backgroundColor = '#FF5733';
+        waterQuality.textContent = '!';
+        statusText.textContent = 'Limpeza Recomendada';
+        statusText.backgroundColor = '#FF5733';
+    } else {
+        waterQuality.style.backgroundColor = '#66BB6A';
+        waterQuality.textContent = '✓';
+        statusText.textContent = 'Água Boa para Consumo';
+    }
+</script>

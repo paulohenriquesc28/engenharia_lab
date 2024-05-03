@@ -1,0 +1,119 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medidor de pH</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        .ph-barra {
+            width: 300px;
+            height: 30px;
+            background-color: #ccc;
+            position: relative;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            border: 1px solid;
+        }
+
+        .ph-valor {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            transition: width 0.5s ease;
+        }
+
+        .ph-indicador {
+            text-align: center;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        .ph-box {
+            width: 200px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+            background-color: #ccc;
+            border: 1px solid;
+            border-radius: 5px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <tr>
+            <th>
+                <div class="ph-barra">
+                    <div class="ph-valor" id="ph-valor" style="width: 50%;"></div>
+                </div>
+            </th>
+        </tr>
+        <tr>
+            <th>
+                <div class="ph-indicador">
+                    <span id="ph-texto">Neutro (7)</span>
+                </div>
+                <div class="ph-box" id="ph-classificacao">
+                </div>
+            </th>
+        </tr>
+    </table>
+
+
+
+
+
+
+    <script>
+        function atualizarPh(ph) {
+            const phValor = document.getElementById('ph-valor');
+            const phTexto = document.getElementById('ph-texto');
+            const phClassificacao = document.getElementById('ph-classificacao');
+
+            phTexto.textContent = '';
+
+            if (ph < 0) {
+                ph = 0;
+            } else if (ph > 14) {
+                ph = 14;
+            }
+
+            phValor.style.width = ((ph / 14) * 100) + '%';
+
+            if (ph >= 0 && ph <= 6) {
+                phValor.style.backgroundColor = '#ff0000';
+                //phTexto.textContent = 'Ácido (' + ph + ')';
+                phClassificacao.textContent = 'Ácido (pH ' + ph + ')';
+            } else if (ph === 7) {
+                phValor.style.backgroundColor = '#0d6007';
+                //phTexto.textContent = 'Ideal (7)';
+                phClassificacao.textContent = 'Ideal (pH ' + ph + ')';
+            } else {
+                phValor.style.backgroundColor = '#084005';
+                //phTexto.textContent = 'Alcalino (' + ph + ')';
+                phClassificacao.textContent = 'Alcalino (pH ' + ph + ')';
+            }
+        }
+
+        // Exemplo: atualize o valor do pH
+        const phAtual = 9; // Insira o valor do pH atual aqui
+        atualizarPh(phAtual);
+    </script>
+
+</body>
+</html>
+       

@@ -1,0 +1,66 @@
+﻿@model IEnumerable<TempMotoWeb.Models.Medicao>
+
+@{
+    ViewData["Title"] = "Graficos";
+}
+@section Header{
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script>
+        (g => { var h, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__", m = document, b = window; b = b[c] || (b[c] = {}); var d = b.maps || (b.maps = {}), r = new Set, e = new URLSearchParams, u = () => h || (h = new Promise(async (f, n) => { await (a = m.createElement("script")); e.set("libraries", [...r] + ""); for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]); e.set("callback", c + ".maps." + q); a.src = `https://maps.${c}apis.com/maps/api/js?` + e; d[q] = f; a.onerror = () => h = n(Error(p + " could not load.")); a.nonce = m.querySelector("script[nonce]")?.nonce || ""; m.head.append(a) })); d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)) })
+            ({ key: mapsKey, v: "beta" });
+    </script>
+    <script src="~/js/graficoMapa.js"></script>
+}
+
+<h1>Graficos</h1>
+
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-md-2 form-group">
+            <label for="dataInicio">Data Inicial</label>
+            <input class="form-control" type="datetime-local" name="dataInicio" id="dataInicio" />
+        </div>
+        <div class="col-md-2 form-group">
+            <label for="dataFim">Data Fim</label>
+            <input class="form-control" type="datetime-local" name="dataFim" id="dataFim" />
+        </div>
+        <div class="col-md-6">
+            <span>&nbsp;</span><br />
+            <button class="btn btn-primary" onclick="montarMapa();">Mostar no mapa</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-9">
+            <!--<select id="selected" name="selected" multiple class="form-select form-select-sm" aria-label="multiple select example">
+                @foreach (var item in Model)
+                {
+                    <option value="@item.Id">@(item.Ph.ToString()?? item.Data_Medicao.ToString()) </option>
+                }
+            </select>-->
+            <div id="map" style="height: 500px;"></div>
+        </div>
+        <div class="col-md-3">
+            <span>
+                No mapa está habilitada a criação de formas geométricas. para utilizar basta clicar em algum lugar do mapa e mover o mouse para criar uma aresta. 
+                Para fechar o polígono basta terminar uma aresta no começo da primeira aresta desenhada. O gráfico será montado com base nos pontos dentro da área delimitada.
+            </span>
+        </div>
+        
+        <!--<div class="col-md-6">
+            <button class="btn btn-primary" onclick="montarGrafico();">Montar gráfico</button>
+        </div>-->
+    </div>
+</div>
+<br/>
+<hr/>
+
+<div class="row">
+    <canvas id="myChart"></canvas>
+
+</div>
+<div class="row">
+    <canvas id="graficoUmidade"></canvas>
+    <script src="~/js/grafico.js"></script>
+
+</div>
