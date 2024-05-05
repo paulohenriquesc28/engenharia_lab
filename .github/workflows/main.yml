@@ -1,0 +1,50 @@
+name: Pipeline de Esteira para Projeto
+
+# Define os gatilhos para a pipeline
+on:
+  push:
+    branches:
+      - main  # Quando tiver um push, ele vai executar
+
+# Definição das etapas do pipeline
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout do código
+      uses: actions/checkout@v2
+
+    - name: Configurar ambiente Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Instalar dependências
+      run: npm install
+
+    - name: Compilar o código
+      run: npm run build
+
+    - name: Executar testes
+      run: npm test
+
+    - name: Publicar artefatos
+      uses: actions/upload-artifact@v2
+      with:
+        name: Esteirado-Artefatos-Build
+        path: TempMotoWeb  # Atualiza onde está o caminho do app
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Baixar artefatos do build
+      uses: actions/download-artifact@v2
+      with:
+        name: Esteirado-Artefatos-Build
+
+    - name: Implantação no servidor
+      # Script para se conectar ao servidor via SSH e implantar o aplicativo
+      run: |
+        ssh user@your-server 'cd /path/to/TempMotoWeb && dotnet publish -c Release && pm2 restart app' 
