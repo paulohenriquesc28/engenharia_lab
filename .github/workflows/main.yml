@@ -9,7 +9,7 @@ on:
 # Definição das etapas do pipeline
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest  # Troque para windows-latest para usar uma máquina Windows
 
     steps:
     - name: Checkout do código
@@ -18,22 +18,22 @@ jobs:
     - name: Setup .NET Core SDK
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '3.1.x'  # Especifique a versão do .NET Core SDK que deseja usar
+        dotnet-version: '5.0.x'  # Especifique a versão do .NET Core SDK que deseja usar
 
     - name: Restaurar dependências
       run: dotnet restore
 
     - name: Compilar o código
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build --configuration Release
 
     - name: Executar testes
-      run: dotnet test --configuration Release --no-restore
+      run: dotnet test --configuration Release
 
     - name: Publicar artefatos
       uses: actions/upload-artifact@v2
       with:
         name: Esteirado-Artefatos-Build
-        path: ./TempMotoWeb  # Atualize com o caminho do diretório do seu aplicativo
+        path: ./TempMotoWeb/bin/Release/net5.0  # Ajuste o caminho conforme necessário
 
   deploy:
     needs: build
