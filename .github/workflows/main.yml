@@ -27,13 +27,13 @@ jobs:
       run: dotnet build --configuration Release ./TempMotoWeb/TempMotoWeb.csproj
 
     - name: Executar testes
-      run: dotnet test --configuration Release ./TempMotoWeb/TempMotoWeb.csproj
+      run: dotnet test ./TempMotoWeb.Tests/TempMotoWeb.Tests.csproj  # Ajuste o caminho do projeto de teste conforme necessário
 
     - name: Publicar artefatos
       uses: actions/upload-artifact@v2
       with:
         name: Esteirado-Artefatos-Build
-        path: ./TempMotoWeb/bin/Release/net7.0  # Caminho do diretório
+        path: ./TempMotoWeb/bin/Release/net7.0  # Ajuste o caminho conforme necessário
 
   deploy:
     needs: build
@@ -46,6 +46,6 @@ jobs:
         name: Esteirado-Artefatos-Build
 
     - name: Implantação no servidor
-      # Script para se conectar ao servidor via SSH e implantar o aplicativo
+      # Substitua 'your-server' pelo endereço IP ou nome do host do seu servidor SSH
       run: |
-        ssh user@your-server 'cd /path/to/TempMotoWeb && dotnet publish -c Release && pm2 restart app'
+        ssh user@20.119.8.54 'cd /path/to/TempMotoWeb && dotnet publish -c Release && pm2 restart app'
