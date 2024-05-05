@@ -8,8 +8,8 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # Usar uma máquina Ubuntu para construir o projeto
-
+    runs-on: ubuntu-latest 
+    
     steps:
     - name: Checkout do código
       uses: actions/checkout@v2
