@@ -1,10 +1,10 @@
 name: Pipeline de Esteira para Projeto
 
-# Define os gatilhos para a pipeline
+# Definindo os gatilhos para acionar o pipeline
 on:
   push:
     branches:
-      - main  # Quando tiver um push, ele vai executar
+      - main  # Executar o pipeline quando houver push na branch main
 
 # Definição das etapas do pipeline
 jobs:
@@ -15,25 +15,26 @@ jobs:
     - name: Checkout do código
       uses: actions/checkout@v2
 
-    - name: Configurar ambiente Node.js
-      uses: actions/setup-node@v2
+    - name: Setup .NET Core SDK
+      uses: actions/setup-dotnet@v1
       with:
-        node-version: '14'
+        dotnet-version: '3.1.x'  # Especifique a versão do .NET Core SDK que deseja usar
 
-    - name: Instalar dependências
-      run: npm install
+    - name: Restaurar dependências
+      run: dotnet restore
 
     - name: Compilar o código
-      run: npm run build
+      run: dotnet build --configuration Release --no-restore
 
     - name: Executar testes
-      run: npm test
+      run: dotnet test --configuration Release --no-restore
 
     - name: Publicar artefatos
       uses: actions/upload-artifact@v2
       with:
         name: Esteirado-Artefatos-Build
-        path: TempMotoWeb  # Atualiza onde está o caminho do app
+        path: ./TempMotoWeb  # Atualize com o caminho do diretório do seu aplicativo
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -47,4 +48,4 @@ jobs:
     - name: Implantação no servidor
       # Script para se conectar ao servidor via SSH e implantar o aplicativo
       run: |
-        ssh user@your-server 'cd /path/to/TempMotoWeb && dotnet publish -c Release && pm2 restart app' 
+        ssh user@your-server 'cd /path/to/TempMotoWeb && dotnet publish -c Release && pm2 restart app'
