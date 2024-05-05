@@ -1,4 +1,4 @@
-name: Pipeline de Esteira para Projeto
+name: Pipeline de Compilação e Teste
 
 # Definindo os gatilhos para acionar o pipeline
 on:
@@ -9,7 +9,7 @@ on:
 # Definição das etapas do pipeline
 jobs:
   build:
-    runs-on: ubuntu-latest  # Usar uma máquina Ubuntu para construir o projeto
+    runs-on: ubuntu-latest  # Usar uma máquina Ubuntu para compilar e testar o projeto
 
     steps:
     - name: Checkout do código
@@ -18,7 +18,7 @@ jobs:
     - name: Setup .NET Core SDK
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '7.0.x'  # Especifique a versão do .NET Core SDK que deseja usar
+        dotnet-version: '7.0.x' 
 
     - name: Restaurar dependências
       run: dotnet restore ./TempMotoWeb/TempMotoWeb.csproj
@@ -27,25 +27,4 @@ jobs:
       run: dotnet build --configuration Release ./TempMotoWeb/TempMotoWeb.csproj
 
     - name: Executar testes
-      run: dotnet test ./TempMotoWeb.Tests/TempMotoWeb.Tests.csproj  # Ajuste o caminho do projeto de teste conforme necessário
-
-    - name: Publicar artefatos
-      uses: actions/upload-artifact@v2
-      with:
-        name: Esteirado-Artefatos-Build
-        path: ./TempMotoWeb/bin/Release/net7.0  # Ajuste o caminho conforme necessário
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest  # Usar uma máquina Ubuntu para implantação
-
-    steps:
-    - name: Baixar artefatos do build
-      uses: actions/download-artifact@v2
-      with:
-        name: Esteirado-Artefatos-Build
-
-    - name: Implantação no servidor
-      # Substitua 'your-server' pelo endereço IP ou nome do host do seu servidor SSH
-      run: |
-        ssh user@20.119.8.54 'cd /path/to/TempMotoWeb && dotnet publish -c Release && pm2 restart app'
+      run: dotnet test --configuration Release ./TempMotoWeb/TempMotoWeb.csproj
