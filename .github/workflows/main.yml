@@ -4,12 +4,12 @@ name: Pipeline de Esteira para Projeto
 on:
   push:
     branches:
-      - main  # Executa quando tiver um push
+      - main  # Executar o pipeline quando houver push na branch main
 
 # Definição das etapas do pipeline
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # Usar uma máquina Ubuntu para construir o projeto
 
     steps:
     - name: Checkout do código
@@ -18,10 +18,10 @@ jobs:
     - name: Setup .NET Core SDK
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '5.0.x'  # Versão do .NET
+        dotnet-version: '7.0.x'  # Especifique a versão do .NET Core SDK que deseja usar
 
     - name: Restaurar dependências
-      run: dotnet restore
+      run: dotnet restore ./TempMotoWeb/TempMotoWeb.csproj
 
     - name: Compilar o código
       run: dotnet build --configuration Release ./TempMotoWeb/TempMotoWeb.csproj
@@ -33,11 +33,11 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: Esteirado-Artefatos-Build
-        path: ./TempMotoWeb/bin/Release/net5.0  # Ajuste o caminho conforme necessário
+        path: ./TempMotoWeb/bin/Release/net7.0  # Caminho do diretório
 
   deploy:
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # Usar uma máquina Ubuntu para implantação
 
     steps:
     - name: Baixar artefatos do build
