@@ -1,4 +1,4 @@
-name: Pipeline de Compilação e Teste
+name: Pipeline de Esteira para Projeto
 
 # Definindo os gatilhos para acionar o pipeline
 on:
@@ -6,10 +6,9 @@ on:
     branches:
       - main  # Executar o pipeline quando houver push na branch main
 
-# Definição das etapas do pipeline
 jobs:
   build:
-    runs-on: ubuntu-latest  # Usar uma máquina Ubuntu para compilar e testar o projeto
+    runs-on: ubuntu-latest  # Usar uma máquina Ubuntu para construir o projeto
 
     steps:
     - name: Checkout do código
@@ -18,7 +17,7 @@ jobs:
     - name: Setup .NET Core SDK
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '7.0.x' 
+        dotnet-version: '7.0.x'  # versão 7 do SDK
 
     - name: Restaurar dependências
       run: dotnet restore ./TempMotoWeb/TempMotoWeb.csproj
@@ -28,3 +27,9 @@ jobs:
 
     - name: Executar testes
       run: dotnet test --configuration Release ./TempMotoWeb/TempMotoWeb.csproj
+
+    - name: Publicar artefatos
+      uses: actions/upload-artifact@v2
+      with:
+        name: Esteirado-Artefatos-Build
+        path: ./TempMotoWeb/bin/Release/net7.0 
