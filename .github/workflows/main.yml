@@ -6,10 +6,11 @@ on:
     branches:
       - main  # Executar o pipeline quando houver push na branch main
 
+# Definição das etapas do pipeline
 jobs:
   build:
-    runs-on: ubuntu-latest 
-    
+    runs-on: ubuntu-latest  # Usar uma máquina Ubuntu para construir o projeto
+
     steps:
     - name: Checkout do código
       uses: actions/checkout@v2
@@ -17,7 +18,7 @@ jobs:
     - name: Setup .NET Core SDK
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '7.0.x'  # versão 7 do SDK
+        dotnet-version: '7.0.x'  # Especifique a versão do .NET Core SDK que deseja usar
 
     - name: Restaurar dependências
       run: dotnet restore ./TempMotoWeb/TempMotoWeb.csproj
@@ -32,4 +33,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: Esteirado-Artefatos-Build
-        path: ./TempMotoWeb/bin/Release/net7.0 
+        path: ./TempMotoWeb/bin/Release/net7.0  # Ajuste o caminho conforme necessário

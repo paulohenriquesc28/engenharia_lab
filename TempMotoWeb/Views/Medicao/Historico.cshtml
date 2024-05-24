@@ -1,0 +1,85 @@
+﻿@model IEnumerable<TempMotoWeb.Models.Medicao>
+
+@{
+    ViewData["Title"] = "Histórico";
+}
+ 
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Ph)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Temperatura)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Data_Medicao)
+            </th>
+            <th>
+                Status
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ph)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Temperatura)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data_Medicao)
+                </td>
+                <td id="status-@item.Id">
+                    <!-- Aqui será exibido o status -->
+                </td>
+                <!-- <td>
+                    <a class="btn btn-primary" asp-action="Details" asp-route-id="@item.Id">Detalhes</a>
+                </td>-->
+                <td></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        // Gerar dados JavaScript
+        var medicoes = [
+        @foreach (var item in Model)
+        {
+            <text>
+                {
+                    Id: @item.Id,
+                    Ph: @item.Ph,
+                    Temperatura: @item.Temperatura
+                                },
+            </text>
+        }
+                ];
+
+        // Iterar sobre cada linha da tabela e calcular o status
+        medicoes.forEach(function (item) {
+            var statusCell = document.getElementById('status-' + item.Id);
+
+            var temperatura = item.Temperatura;
+            var ph = item.Ph;
+
+            var status;
+
+            if (((ph >= 1 && ph <= 14 && ph != 7) || (temperatura > 35 || temperatura < 5))) {
+                status = 'Limpeza Recomendada';
+            } else {
+                status = 'Água Boa para Consumo';
+            }
+
+            statusCell.textContent = status;
+        });
+    </script>
+}

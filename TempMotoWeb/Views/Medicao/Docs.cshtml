@@ -1,0 +1,85 @@
+﻿@model IEnumerable<TempMotoWeb.Models.Medicao>
+
+@{
+    ViewData["Title"] = "Documentação";
+}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentação do Aplicativo Aqua</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Documentação do Aplicativo Aqua</h1>
+        <p>Bem-vindo ao aplicativo Aqua! Esta documentação irá guiá-lo sobre como usar o aplicativo, explicando suas funcionalidades de forma clara e simples.</p>
+
+        <h2>Funcionalidades Principais</h2>
+
+        <h3>Monitoramento da Temperatura da Água</h3>
+        <ul>
+            <li>O aplicativo exibe a temperatura atual da água em graus Celsius (°C).</li>
+            <li>
+                A cor do termômetro muda para indicar diferentes faixas de temperatura:
+                <ul>
+                    <li><span class="blue">Azul</span>: quando a temperatura está abaixo de 20°C.</li>
+                    <li><span class="yellow">Amarelo</span>: quando a temperatura está entre 20°C e 27°C.</li>
+                    <li><span class="red">Vermelho</span>: quando a temperatura está acima de 27°C.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h3>Monitoramento do pH da Água</h3>
+        <ul>
+            <li>O aplicativo exibe o valor do pH da água, que varia de 0 a 14.</li>
+            <li>
+                A barra de pH muda de cor para indicar diferentes faixas de pH:
+                <ul>
+                    <li><span class="acidic">Vermelho</span>: pH ácido (entre 0 e 6).</li>
+                    <li><span class="neutral">Verde Claro</span>: pH neutro ou ideal (7).</li>
+                    <li><span class="alkaline">Verde Escuro</span>: pH alcalino (entre 8 e 14).</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h3>Indicador de Qualidade da Água</h3>
+        <ul>
+            <li>Um indicador visual mostra se a água está boa para consumo ou se é recomendada uma limpeza.</li>
+            <li>
+                Condições para a limpeza recomendada:
+                <ul>
+                    <li>pH fora da faixa ideal (exceto 7).</li>
+                    <li>Temperatura fora da faixa de 5°C a 35°C.</li>
+                </ul>
+            </li>
+            <li>Se a água estiver boa para consumo, o indicador mostra uma marca de seleção verde (✓).</li>
+            <li>Se a limpeza for recomendada, o indicador mostra um ponto de exclamação vermelho (!).</li>
+        </ul>
+
+        <h2>Como Usar o Aplicativo</h2>
+
+        <h3>Acessar o Aplicativo</h3>
+        <ul>
+            <li>Abra o navegador e acesse o endereço do aplicativo Aqua.</li>
+        </ul>
+
+        <h3>Visualizar a Temperatura e pH</h3>
+        <ul>
+            <li>Na página principal, você verá a temperatura atual da água e o valor do pH.</li>
+            <li>O termômetro e a barra de pH mudarão de cor para ajudá-lo a entender rapidamente as condições da água.</li>
+        </ul>
+
+        <h3>Verificar a Qualidade da Água</h3>
+        <ul>
+            <li>Na página principal, você verá um indicador de qualidade da água.</li>
+            <li>Se o indicador mostrar uma marca de seleção verde (✓), a água está boa para consumo.</li>
+            <li>Se o indicador mostrar um ponto de exclamação vermelho (!), é recomendada uma limpeza da água.</li>
+        </ul>
+    </div>
+</body>
+</html>
+
+
